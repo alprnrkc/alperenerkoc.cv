@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alperen Erkoc | Interdisciplinary Professional</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Base Colors (Dark Mode Default) */
+            --bg-color: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-tertiary: #1a1a1a;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --text-muted: #737373;
+            --border-color: rgba(255, 255, 255, 0.1);
+            
+            /* Path Accents */
+            --tech-accent: #5b9cf6;
+            --gastro-accent: #f5a623;
+            --ent-accent: #10b981; 
+            
+            /* Active State Variables */
+            --accent-color: var(--tech-accent);
+            --accent-glow: rgba(91, 156, 246, 0.15);
+            
+            /* Typography */
+            --font-display: 'Syne', sans-serif;
+            --font-mono: 'DM Mono', monospace;
+            
+            /* Sizing */
+            --max-width: 1200px;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 4rem;
+            --spacing-xl: 8rem;
+        }
+
+        /* Light Mode Theme */
+        [data-theme="light"] {
+            --bg-color: #fafafa;
+            --bg-secondary: #f0f0f0;
+            --bg-tertiary: #e5e5e5;
+            --text-primary: #171717;
+            --text-secondary: #525252;
+            --text-muted: #a3a3a3;
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Reset & Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Custom Cursor - GPU Optimized */
+        .cursor-dot {
+            width: 8px; height: 8px; background-color: var(--accent-color);
+            position: fixed; top: 0; left: 0; border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            will-change: transform; 
+            transition: background-color 0.5s ease;
+        }
+        .cursor-ring {
+            width: 40px; height: 40px; border: 1px solid var(--accent-color);
+            position: fixed; top: 0; left: 0; border-radius: 50%;
+            pointer-events: none; z-index: 9998;
+            will-change: transform, width, height, border-color;
+            transition: width 0.2s, height 0.2s, border-color 0.5s ease;
+        }
+        a:hover ~ .cursor-ring, button:hover ~ .cursor-ring, .lang-btn:hover ~ .cursor-ring, .modal-lang-btn:hover ~ .cursor-ring {
+            width: 60px; height: 60px; border-width: 2px;
+        }
+
+        /* Modal / Onboarding Popup */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+            z-index: 1000; display: flex; justify-content: center; align-items: center;
+            opacity: 1; transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .modal-overlay.hidden {
+            opacity: 0; visibility: hidden; pointer-events: none;
+        }
+        .modal-content {
+            background: var(--bg-secondary); border: 1px solid var(--accent-color);
+            padding: 3rem 2.5rem; border-radius: 12px; max-width: 550px; text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); transform: translateY(0);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.5s ease;
+            margin: 0 1rem;
+        }
+        .modal-overlay.hidden .modal-content {
+            transform: translateY(30px);
+        }
+        
+        .modal-lang-selector {
+            display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem;
+        }
+        .modal-lang-btn {
+            background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary);
+            font-family: var(--font-mono); font-size: 0.75rem; padding: 0.3rem 0.8rem; border-radius: 20px;
+            cursor: none; transition: all 0.3s ease;
+        }
+        .modal-lang-btn:hover { border-color: var(--text-primary); color: var(--text-primary); }
+        
+        body[data-lang="en"] .modal-lang-btn[data-target="en"],
+        body[data-lang="de"] .modal-lang-btn[data-target="de"],
+        body[data-lang="tr"] .modal-lang-btn[data-target="tr"] {
+            background: var(--accent-color); border-color: var(--accent-color); color: #0a0a0a; font-weight: 700;
+        }
+
+        .modal-content h3 { font-size: 1.4rem; margin-bottom: 1.2rem; color: var(--text-primary); }
+        .modal-content p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.7; }
+        .modal-content strong { color: var(--text-primary); font-weight: 500; }
+        .modal-accent { color: var(--accent-color); font-family: var(--font-display); font-weight: 700; transition: color 0.5s ease;}
+
+        /* Typography */
+        h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.1; }
+        h1 { font-size: clamp(3rem, 8vw, 6rem); letter-spacing: -0.03em; margin-bottom: var(--spacing-sm); }
+        h2 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: var(--spacing-lg); letter-spacing: -0.02em; }
+        h3 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: var(--spacing-sm); }
+
+        .mono-subtitle {
+            font-family: var(--font-mono); font-size: 0.9rem; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--accent-color); margin-bottom: var(--spacing-md);
+            transition: color 0.5s ease;
+        }
+
+        .highlight { color: var(--accent-color); font-weight: 600; transition: color 0.5s ease; }
+
+        /* Layout */
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--spacing-md); }
+        section { padding: var(--spacing-xl) 0; border-bottom: 1px solid var(--border-color); }
+
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 1.5rem 0;
+            background: rgba(var(--bg-color), 0.85); backdrop-filter: blur(12px);
+            z-index: 100; border-bottom: 1px solid var(--border-color);
+        }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; letter-spacing: -0.02em; }
+        
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;
+            text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent-color); }
+
+        .nav-controls { display: flex; gap: 1.2rem; align-items: center; }
+
+        /* Path Switcher */
+        .path-switcher {
+            display: flex; background: var(--bg-secondary); border-radius: 30px;
+            padding: 4px; border: 1px solid var(--border-color);
+        }
+        .path-btn {
+            background: transparent; border: none; color: var(--text-secondary);
+            font-family: var(--font-mono); font-size: 0.75rem; padding: 0.5rem 1rem;
+            border-radius: 20px; cursor: none; transition: all 0.3s ease; text-transform: uppercase;
+        }
+        body[data-path="tech"] .path-btn[data-target="tech"] { background: var(--tech-accent); color: #0a0a0a; font-weight: 600; }
+        body[data-path="gastro"] .path-btn[data-target="gastro"] { background: var(--gastro-accent); color: #0a0a0a; font-weight: 600; }
+        body[data-path="ent"] .path-btn[data-target="ent"] { background: var(--ent-accent); color: #0a0a0a; font-weight: 600; }
+
+        /* Toggles */
+        .icon-btn {
+            background: transparent; border: none; color: var(--text-primary);
+            font-size: 1.1rem; cursor: none; opacity: 0.7; transition: opacity 0.3s, color 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .icon-btn:hover { opacity: 1; color: var(--accent-color); }
+
+        /* Language Selector Navbar */
+        .lang-selector {
+            display: flex; align-items: center; gap: 0.4rem;
+            font-family: var(--font-mono); font-size: 0.85rem; font-weight: 500;
+        }
+        .lang-btn {
+            background: transparent; border: none; color: var(--text-secondary);
+            cursor: none; transition: color 0.3s, font-weight 0.3s; padding: 0.2rem;
+            font-family: var(--font-mono); font-size: 0.85rem;
+        }
+        .lang-btn:hover { color: var(--text-primary); }
+        .lang-divider { color: var(--text-muted); font-size: 0.7rem; }
+        
+        body[data-lang="en"] #lang-en { color: var(--accent-color); font-weight: 700; }
+        body[data-lang="de"] #lang-de { color: var(--accent-color); font-weight: 700; }
+        body[data-lang="tr"] #lang-tr { color: var(--accent-color); font-weight: 700; }
+
+        /* Strict Content Separation Logic */
+        [data-content="tech"], [data-content="gastro"], [data-content="ent"] {
+            display: none !important; opacity: 0; transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        body[data-path="tech"] [data-content="tech"], body[data-path="tech"] [data-content="tech"].grid-container { display: block !important; }
+        body[data-path="tech"] [data-content="tech"].grid-container { display: grid !important; }
+        
+        body[data-path="gastro"] [data-content="gastro"], body[data-path="gastro"] [data-content="gastro"].grid-container { display: block !important; }
+        body[data-path="gastro"] [data-content="gastro"].grid-container { display: grid !important; }
+
+        body[data-path="ent"] [data-content="ent"], body[data-path="ent"] [data-content="ent"].grid-container { display: block !important; }
+        body[data-path="ent"] [data-content="ent"].grid-container { display: grid !important; }
+
+        body[data-path="tech"] [data-content="tech"].visible,
+        body[data-path="gastro"] [data-content="gastro"].visible,
+        body[data-path="ent"] [data-content="ent"].visible { opacity: 1; transform: translateY(0); }
+
+        /* Pure Language Switching Logic */
+        body[data-lang="en"] [data-lang="de"], body[data-lang="en"] [data-lang="tr"] { display: none !important; }
+        body[data-lang="de"] [data-lang="en"], body[data-lang="de"] [data-lang="tr"] { display: none !important; }
+        body[data-lang="tr"] [data-lang="en"], body[data-lang="tr"] [data-lang="de"] { display: none !important; }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center;
+            padding-top: 100px; position: relative;
+        }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg); align-items: center; }
+        .hero-text { position: relative; z-index: 2; }
+        
+        /* Clean Photo Container - No Filter */
+        .hero-image-container { 
+            position: relative; aspect-ratio: 4/5; overflow: hidden; border-radius: 4px; 
+        }
+        .hero-image-container::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--accent-glow); mix-blend-mode: overlay; transition: background 0.5s ease;
+            pointer-events: none;
+        }
+        .hero-image {
+            width: 100%; height: 100%; object-fit: cover; 
+            transition: transform 0.6s ease;
+        }
+        .hero-image-container:hover .hero-image { transform: scale(1.05); }
+
+        /* About CTAs */
+        .about-ctas { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; }
+        .cta-btn {
+            display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.8rem 1.8rem;
+            border: 1px solid var(--border-color); border-radius: 30px; font-family: var(--font-mono);
+            font-size: 0.85rem; font-weight: 500; color: var(--text-primary); text-decoration: none;
+            background: transparent; cursor: none; transition: all 0.3s ease;
+        }
+        .cta-btn:hover {
+            border-color: var(--accent-color); background: var(--accent-glow); color: var(--accent-color);
+        }
+
+        /* About Section */
+        .about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: var(--spacing-lg); }
+        .about-text { font-size: 1.1rem; color: var(--text-secondary); }
+
+        /* Experience Timeline */
+        .timeline { position: relative; padding-left: 2rem; }
+        .timeline::before {
+            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 1px; background: var(--border-color);
+        }
+        .timeline-item { position: relative; padding-bottom: var(--spacing-lg); }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -2rem; top: 0.5rem; width: 11px; height: 11px;
+            border-radius: 50%; background: var(--bg-color); border: 2px solid var(--accent-color);
+            transform: translateX(-5px); transition: border-color 0.5s ease;
+        }
+        .timeline-date { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .timeline-role { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 0.25rem; }
+        .timeline-company { font-size: 1rem; color: var(--text-primary); margin-bottom: 1rem; }
+        .timeline-desc { color: var(--text-secondary); font-size: 0.95rem; }
+
+        /* Skills Grid */
+        .skills-grid { gap: var(--spacing-md); }
+        .skill-category {
+            background: var(--bg-secondary); padding: var(--spacing-md);
+            border: 1px solid var(--border-color); border-radius: 4px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .skill-category:hover { transform: translateY(-5px); border-color: var(--accent-color); }
+        .skill-category h4 {
+            font-family: var(--font-mono); font-size: 0.9rem; text-transform: uppercase;
+            letter-spacing: 0.05em; margin-bottom: 1rem; color: var(--accent-color);
+        }
+        .skill-list { list-style: none; }
+        .skill-list li { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem; padding-left: 1rem; position: relative; }
+        .skill-list li::before { content: '>'; position: absolute; left: 0; color: var(--text-muted); font-family: var(--font-mono); }
+
+        /* Education & Interests Grid */
+        .two-col-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg); }
+        .edu-item { margin-bottom: var(--spacing-md); }
+        .edu-item:last-child { margin-bottom: 0; }
+        .interest-tag {
+            display: inline-block; padding: 0.6rem 1.2rem; background: var(--bg-tertiary);
+            border: 1px solid var(--border-color); border-radius: 30px; font-size: 0.85rem;
+            margin-right: 0.5rem; margin-bottom: 0.5rem; transition: border-color 0.3s ease, color 0.3s ease;
+        }
+        .interest-tag:hover { border-color: var(--accent-color); color: var(--text-primary); }
+
+        /* Footer */
+        footer { padding: var(--spacing-lg) 0; text-align: center; font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .nav-links { display: none; } 
+        }
+        @media (max-width: 768px) {
+            .hero-grid, .about-grid, .two-col-grid { grid-template-columns: 1fr; }
+            .hero-image-container { order: -1; max-width: 400px; margin: 0 auto; }
+            .nav-content { flex-direction: column; gap: 1rem; }
+            .path-switcher { flex-wrap: wrap; justify-content: center; border-radius: 12px; }
+            nav { padding: 1rem 0; }
+            .hero { padding-top: 180px; text-align: center; }
+            .about-ctas { justify-content: center; }
+            .cursor-dot, .cursor-ring { display: none; }
+            * { cursor: auto; }
+            .modal-content { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body data-path="tech" data-theme="dark" data-lang="en">
+
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <div id="onboarding-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            
+            <div class="modal-lang-selector">
+                <button class="modal-lang-btn" data-target="en">EN</button>
+                <button class="modal-lang-btn" data-target="de">DE</button>
+                <button class="modal-lang-btn" data-target="tr">TR</button>
+            </div>
+
+            <h3 data-lang="en">Welcome to my Interactive CV</h3>
+            <h3 data-lang="de">Willkommen in meinem interaktiven Lebenslauf</h3>
+            <h3 data-lang="tr">İnteraktif CV'me Hoş Geldiniz</h3>
+            
+            <p data-lang="en">Because my career and expertise span across highly distinct fields, I've created <span class="modal-accent">three separate views</span> to keep things relevant for you.</p>
+            <p data-lang="de">Da meine Karriere und Expertise über sehr unterschiedliche Bereiche hinwegreichen, habe ich <span class="modal-accent">drei separate Ansichten</span> erstellt, um die Informationen für Sie relevant zu halten.</p>
+            <p data-lang="tr">Kariyerim ve uzmanlığım birbirinden çok farklı disiplinlere yayıldığı için, sizin için en ilgili bilgileri sunmak adına <span class="modal-accent">üç ayrı görünüm</span> tasarladım.</p>
+            
+            <p data-lang="en"><strong>Use the buttons at the top navigation</strong> to switch between my Tech & QA, Gastro, and Business profiles. The entire website, including my experiences and skills, will adapt instantly based on your selection.</p>
+            <p data-lang="de"><strong>Verwenden Sie die Schaltflächen in der oberen Navigation</strong>, um zwischen meinen Profilen Tech & QA, Gastro und Business zu wechseln. Die gesamte Website passt sich sofort an.</p>
+            <p data-lang="tr">Tech & QA, Gastro ve Girişim profillerim arasında geçiş yapmak için <strong>üst menüdeki butonları kullanın</strong>. Seçiminize göre tüm CV içeriği anında değişecektir.</p>
+            
+            <button id="close-modal" class="cta-btn" style="margin-top: 1.5rem;">
+                <span data-lang="en">Got it! Let's explore.</span>
+                <span data-lang="de">Verstanden! Los geht's.</span>
+                <span data-lang="tr">Anladım! İncelemeye başla.</span>
+            </button>
+        </div>
+    </div>
+
+    <nav>
+        <div class="container nav-content">
+            <div class="logo">A.E.</div>
+            
+            <ul class="nav-links">
+                <li><a href="#about"><span data-lang="en">About</span><span data-lang="de">Über mich</span><span data-lang="tr">Hakkımda</span></a></li>
+                <li><a href="#experience"><span data-lang="en">Experience</span><span data-lang="de">Erfahrung</span><span data-lang="tr">Deneyim</span></a></li>
+                <li><a href="#skills"><span data-lang="en">Skills</span><span data-lang="de">Fähigkeiten</span><span data-lang="tr">Yetenekler</span></a></li>
+                <li><a href="#education"><span data-lang="en">Education</span><span data-lang="de">Bildung</span><span data-lang="tr">Eğitim</span></a></li>
+            </ul>
+
+            <div class="nav-controls">
+                <div class="path-switcher">
+                    <button class="path-btn" data-target="tech">Tech & QA</button>
+                    <button class="path-btn" data-target="gastro">Gastro</button>
+                    <button class="path-btn" data-target="ent"><span data-lang="en">Business</span><span data-lang="de">Business</span><span data-lang="tr">Girişim</span></button>
+                </div>
+                
+                <button class="icon-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+                
+                <div class="lang-selector">
+                    <button id="lang-en" class="lang-btn">EN</button>
+                    <span class="lang-divider">/</span>
+                    <button id="lang-de" class="lang-btn">DE</button>
+                    <span class="lang-divider">/</span>
+                    <button id="lang-tr" class="lang-btn">TR</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-text reveal">
+                    <h1>Alperen<br>Erkoc</h1>
+                    
+                    <div data-content="tech">
+                        <div class="mono-subtitle" data-lang="en">QA Engineer • AI Systems Trainer</div>
+                        <div class="mono-subtitle" data-lang="de">QA-Ingenieur • KI-Systemtrainer</div>
+                        <div class="mono-subtitle" data-lang="tr">QA Engineer • Yapay Zeka Sistem Eğitmeni</div>
+                        
+                        <p class="about-text" data-lang="en">Bridging the gap between creative vision and technical reliability. Using a designer's eye to spot UX flaws and an analytical discipline to ensure the safety and precision of autonomous systems.</p>
+                        <p class="about-text" data-lang="de">Überbrückung der Lücke zwischen kreativer Vision und technischer Zuverlässigkeit. Mit dem Auge eines Designers, um UX-Schwächen zu erkennen, und einer analytischen Disziplin, um die Sicherheit autonomer Systeme zu gewährleisten.</p>
+                        <p class="about-text" data-lang="tr">Yaratıcı vizyon ile teknik güvenilirlik arasındaki köprüyü kuruyorum. UX hatalarını yakalamak için bir tasarımcı gözünü, otonom sistemlerin güvenliğini ve kusursuzluğunu sağlamak için ise analitik bir disiplini kullanıyorum.</p>
+                    </div>
+
+                    <div data-content="gastro">
+                        <div class="mono-subtitle" data-lang="en">Design Student • Hospitality Professional</div>
+                        <div class="mono-subtitle" data-lang="de"> Designstudent • Gastronomie-Profi</div>
+                        <div class="mono-subtitle" data-lang="tr">Tasarım Öğrencisi • Gastronomi Profesyoneli</div>
+                        
+                        <p class="about-text" data-lang="en">Crafting aesthetic experiences from visual design to the perfect cup of coffee. Thriving in high-tempo environments with a focus on meticulous presentation and exceptional guest service.</p>
+                        <p class="about-text" data-lang="de">Gestaltung ästhetischer Erlebnisse vom visuellem Design bis zur perfekten Tasse Kaffee. Erfolgreich in dynamischen Umgebungen mit Fokus auf sorgfältige Präsentation und erstklassigen Gästeservice.</p>
+                        <p class="about-text" data-lang="tr">Görsel tasarımdan mükemmel bir fincan kahveye kadar estetik deneyimler üretiyorum. Titiz bir sunuma ve olağanüstü misafir hizmetine odaklanarak yüksek tempolu ortamlarda fark yaratıyorum.</p>
+                    </div>
+
+                    <div data-content="ent">
+                        <div class="mono-subtitle" data-lang="en">Entrepreneur • Community Volunteer</div>
+                        <div class="mono-subtitle" data-lang="de">Unternehmer • Community-Volunteer</div>
+                        <div class="mono-subtitle" data-lang="tr">Girişimci • Etkinlik Gönüllüsü</div>
+                        
+                        <p class="about-text" data-lang="en">A highly adaptable builder and interdisciplinary thinker. Turning market analysis into rapid profitability and coordinating international events through flawless execution and a perfectionist drive.</p>
+                        <p class="about-text" data-lang="de">Ein anpassungsfähiger Macher und interdisziplinärer Denker. Verwandelt Marktanalysen in schnelle Profitabilität und koordiniert internationale Events durch fehlerfreie Ausführung und Perfektionismus.</p>
+                        <p class="about-text" data-lang="tr">Yüksek adaptasyon yeteneğine sahip interdisipliner bir sistem kurucu. Kusursuz uygulama ve mükemmeliyetçi bir dürtüyle pazar analizini hızla kârlılığa dönüştürüyor ve uluslararası etkinlikleri koordine ediyorum.</p>
+                    </div>
+                </div>
+                
+                <div class="hero-image-container reveal">
+                    <img src="alperen-photo.png" alt="Alperen Erkoc" class="hero-image" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22500%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23333%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%23777%22%20font-family%3D%22sans-serif%22%20font-size%3D%2214%22%20text-anchor%3D%22middle%22%3Ealperen-photo.png%3C%2Ftext%3E%3C%2Fsvg%3E';">
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2>
+                    <span data-lang="en">About Me</span>
+                    <span data-lang="de">Über Mich</span>
+                    <span data-lang="tr">Hakkımda</span>
+                </h2>
+                
+                <div class="about-grid reveal">
+                    <div class="mono-subtitle">
+                        <span data-lang="en">Profile Synopsis</span>
+                        <span data-lang="de">Profilübersicht</span>
+                        <span data-lang="tr">Profil Özeti</span>
+                    </div>
+                    
+                    <div data-content="tech" class="about-text">
+                        <div data-lang="en">
+                            <p>I am an interdisciplinary thinker and a relentless perfectionist. My unique trajectory—from visual design to testing live streaming systems for millions of users, and now training autonomous AI agents at SpaceX/xAI—proves my ability to learn rapidly and adapt to highly complex environments.</p>
+                            <br>
+                            <p>I don't just complete tasks; I execute them flawlessly. I utilize my background in design to critically evaluate User Experiences, whilst applying extreme analytical rigor honed through QA to guarantee the functional precision and safety of complex systems before they deploy.</p>
+                        </div>
+                        <div data-lang="de">
+                            <p>Ich bin ein interdisziplinärer Denker und ein unermüdlicher Perfektionist. Mein einzigartiger Werdegang – vom visuellen Design über das Testen von Live-Streaming-Systemen für Millionen von Nutzern bis hin zum Training autonomer KI-Agenten bei SpaceX/xAI – beweist meine Fähigkeit, schnell zu lernen und mich an hochkomplexe Umgebungen anzupassen.</p>
+                            <br>
+                            <p>Ich erledige Aufgaben nicht nur; ich führe sie fehlerfrei aus. Ich nutze meinen Design-Hintergrund zur kritischen Bewertung von Nutzererlebnissen, während ich extreme analytische Strenge anwende, um die funktionale Präzision komplexer Systeme zu garantieren.</p>
+                        </div>
+                        <div data-lang="tr">
+                            <p>Ben interdisipliner düşünen, tavizsiz bir mükemmeliyetçiyim. Görsel tasarımdan milyonlarca kullanıcı için canlı yayın sistemlerini test etmeye, ve şimdi SpaceX/xAI'da otonom yapay zeka ajanlarını eğitmeye uzanan benzersiz yörüngem; çok karmaşık ortamlara hızla adapte olma ve öğrenme yeteneğimi kanıtlıyor.</p>
+                            <br>
+                            <p>Ben görevleri sadece tamamlamam; onları kusursuzca uygularım. Kullanıcı Deneyimini (UX) eleştirel bir şekilde değerlendirmek için tasarım altyapımı kullanırken, karmaşık sistemlerin canlıya çıkmadan önce işlevsel doğruluğunu ve güvenliğini garanti altına almak için QA sürecinde edindiğim aşırı analitik titizliği uygularım.</p>
+                        </div>
+                    </div>
+
+                    <div data-content="gastro" class="about-text">
+                        <div data-lang="en">
+                            <p>I bring an uncompromising standard of perfectionism and a highly adaptable mindset to the hospitality industry. Blending an aesthetic-driven background in design with the high-pressure reality of fine dining and specialty coffee, I understand that exceptional service is fundamentally about flawless execution and human connection.</p>
+                            <br>
+                            <p>I thrive in fast-paced, high-volume settings, combining rapid learning, a consistently positive demeanor, and multicultural communication skills. My goal is always to craft memorable, visually appealing, and welcoming experiences without missing a single detail.</p>
+                        </div>
+                        <div data-lang="de">
+                            <p>Ich bringe einen kompromisslosen Perfektionismus und eine äußerst anpassungsfähige Denkweise in die Gastronomie ein. Durch die Verbindung meines ästhetischen Design-Hintergrunds mit der Realität der gehobenen Gastronomie und von Kaffeespezialitäten weiß ich, dass es bei exzellentem Service im Kern um fehlerfreie Ausführung und menschliche Verbindungen geht.</p>
+                            <br>
+                            <p>Ich arbeite erfolgreich in dynamischen Umgebungen und kombiniere schnelles Lernen, ein stets positives Auftreten und multikulturelle Kommunikationsfähigkeiten. Mein Ziel ist es immer, unvergessliche Erlebnisse zu schaffen, ohne auch nur ein einziges Detail zu übersehen.</p>
+                        </div>
+                        <div data-lang="tr">
+                            <p>Gastronomi sektörüne tavizsiz bir mükemmeliyetçilik standardı ve son derece uyarlanabilir bir zihniyet getiriyorum. Estetik odaklı tasarım altyapımı, fine-dining ve nitelikli kahve dünyasının yüksek basınçlı gerçekliğiyle harmanlayarak, olağanüstü hizmetin temelinde kusursuz icraat ve insan ilişkisi yattığını biliyorum.</p>
+                            <br>
+                            <p>Hızlı öğrenme, sürekli pozitif bir tutum ve çok kültürlü iletişim becerilerimi birleştirerek yüksek tempolu ortamlarda parlıyorum. Hedefim her zaman, tek bir detayı bile atlamadan unutulmaz, görsel olarak çekici ve misafirperver deneyimler yaratmaktır.</p>
+                        </div>
+                    </div>
+
+                    <div data-content="ent" class="about-text">
+                        <div data-lang="en">
+                            <p>Driven by an entrepreneurial spirit and a perfectionist mindset, I am a fast learner who thrives in interdisciplinary environments. My proven ability to rapidly analyze market trends and execute strategies allowed me to launch and scale a highly profitable e-commerce venture, generating substantial net profit within just three months.</p>
+                            <br>
+                            <p>Whether I am negotiating premium physical media/camera sales or managing organization logistics for international sports events, I apply the same extreme adaptability. I am built to pivot efficiently, solve complex problems under pressure, and deliver exceptional, flawless results.</p>
+                        </div>
+                        <div data-lang="de">
+                            <p>Angetrieben von Unternehmergeist und Perfektionismus bin ich ein schneller Lerner, der in interdisziplinären Umgebungen aufblüht. Meine Fähigkeit, Markttrends schnell zu analysieren, ermöglichte es mir, ein hochprofitables E-Commerce-Unternehmen aufzubauen, das innerhalb von nur drei Monaten beträchtliche Nettogewinne erzielte.</p>
+                            <br>
+                            <p>Egal, ob ich Verkäufe von Premium-Kameras verhandle oder groß angelegte Logistik für internationale Sport-Events leite, ich wende dieselbe extreme Anpassungsfähigkeit an. Ich bin darauf ausgelegt, komplexe Probleme unter Druck zu lösen und außergewöhnliche, fehlerfreie Ergebnisse zu liefern.</p>
+                        </div>
+                        <div data-lang="tr">
+                            <p>Girişimci bir ruh ve mükemmeliyetçi bir zihniyetle, interdisipliner ortamlarda parlayan, çok hızlı öğrenen biriyim. Pazar trendlerini hızla analiz edip stratejileri uygulama konusundaki kanıtlanmış yeteneğim, yüksek kârlı bir e-ticaret girişimi kurmamı ve sadece üç ay içinde ciddi bir net kâr elde etmemi sağladı.</p>
+                            <br>
+                            <p>İster premium fiziksel medya/kamera satışlarını müzakere ediyor, ister uluslararası spor etkinlikleri için organizasyon lojistiğini yönetiyor olayım, aynı aşırı adaptasyon yeteneğini uyguluyorum. Kriz anlarında verimli bir şekilde manevra yapmak, karmaşık sorunları çözmek ve kusursuz sonuçlar sunmak benim doğamda var.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-ctas reveal">
+                    <a href="mailto:alperenerkoc@gmail.com" class="cta-btn">
+                        <i class="fa-solid fa-envelope"></i> 
+                        <span data-lang="en">Email Me</span>
+                        <span data-lang="de">E-Mail Senden</span>
+                        <span data-lang="tr">E-Posta Gönder</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/alprnrkc/" target="_blank" class="cta-btn">
+                        <i class="fa-brands fa-linkedin"></i> LinkedIn
+                    </a>
+                    <a href="tel:+4915737106064" class="cta-btn">
+                        <i class="fa-solid fa-phone"></i> +49 157 3710 6064
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <div class="container">
+                <h2>
+                    <span data-lang="en">Professional Experience</span>
+                    <span data-lang="de">Berufserfahrung</span>
+                    <span data-lang="tr">Profesyonel Deneyim</span>
+                </h2>
+                
+                <div class="timeline reveal">
+                    
+                    <div data-content="tech">
+                        <div class="timeline-item">
+                            <div class="timeline-date">2026 – Present</div>
+                            <div class="timeline-role" data-lang="en">AI Systems Trainer & Evaluator</div>
+                            <div class="timeline-role" data-lang="de">KI-Systemtrainer & Evaluator</div>
+                            <div class="timeline-role" data-lang="tr">Yapay Zeka Sistem Eğitmeni & Değerlendirici</div>
+                            
+                            <div class="timeline-company">SpaceX/xAI</div>
+                            <div class="timeline-desc" data-lang="en">
+                                Spearheading the development and refinement of advanced computer-using AI agents designed to autonomously execute complex, real-world digital workflows. Conducting rigorous side-by-side evaluations, benchmarking model performance, and providing structured, high-fidelity technical feedback within an engineering loop to support iterative model improvement.
+                            </div>
+                            <div class="timeline-desc" data-lang="de">
+                                Federführend bei der Entwicklung und Verfeinerung fortschrittlicher, computergestützter KI-Agenten, die komplexe digitale Workflows autonom ausführen. Durchführung präziser Side-by-Side-Evaluierungen und Bereitstellung von hochpräzisem technischem Feedback zur kontinuierlichen Modellverbesserung.
+                            </div>
+                            <div class="timeline-desc" data-lang="tr">
+                                Karmaşık, gerçek dünyadaki dijital iş akışlarını otonom olarak yürütmek üzere tasarlanmış gelişmiş yapay zeka ajanlarının geliştirilmesine ve iyileştirilmesine öncülük ediyorum. Yinelemeli model iyileştirmesini desteklemek için titiz yan yana değerlendirmeler (side-by-side) yapıyor ve yüksek doğrulukta yapılandırılmış teknik geri bildirim sağlıyorum.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">2020 – Present</div>
+                            <div class="timeline-role" data-lang="en">Freelance QA Specialist</div>
+                            <div class="timeline-role" data-lang="de">Freiberuflicher QA-Spezialist</div>
+                            <div class="timeline-role" data-lang="tr">Serbest QA Uzmanı</div>
+                            
+                            <div class="timeline-company">Applause/uTest</div>
+                            <div class="timeline-desc" data-lang="en">
+                                Handpicked for DAZN's dedicated Content Protection team. Ensured optimal stream stability during high-load global sporting events (Formula 1, UCL). Analyzed network API requests via Chrome DevTools to enforce geo-compliance. Successfully executed 1000+ complex test cases covering real-money payment gateways and crash log extraction.
+                            </div>
+                            <div class="timeline-desc" data-lang="de">
+                                Ausgewählt für das Content-Protection-Team von DAZN. Gewährleistung optimaler Stream-Stabilität bei globalen Sportereignissen (Formel 1). Analyse von API-Anfragen über Chrome DevTools zur Durchsetzung von Geo-Compliance. Erfolgreiche Durchführung von über 1000 komplexen Testfällen.
+                            </div>
+                            <div class="timeline-desc" data-lang="tr">
+                                DAZN'ın özel İçerik Koruma ekibi için seçildim. Formül 1 ve UCL gibi yoğun global spor etkinlikleri sırasında optimum yayın kararlılığını sağladım. Geo-compliance (bölgesel erişim) kurallarını uygulamak için Chrome DevTools aracılığıyla API isteklerini analiz ettim. Gerçek parayla ödeme ağ geçitlerini ve crash log analizlerini kapsayan 1000'den fazla karmaşık test senaryosunu başarıyla yürüttüm.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-content="gastro">
+                        <div class="timeline-item">
+                            <div class="timeline-date">Dec 2025 – Apr 2026</div>
+                            <div class="timeline-role">Barista</div>
+                            <div class="timeline-company">Edel GmbH</div>
+                            <div class="timeline-desc" data-lang="en">
+                                Managed high-volume orders in a premium setting, maintaining exacting standards and perfectionism for specialty coffee preparation. Ensured a welcoming atmosphere and flawless product quality during peak hours.
+                            </div>
+                            <div class="timeline-desc" data-lang="de">
+                                Abwicklung eines hohen Bestellaufkommens in einem Premium-Umfeld unter Einhaltung anspruchsvoller Standards für Kaffeespezialitäten. Gewährleistung einer einladenden Atmosphäre und fehlerfreier Produktqualität.
+                            </div>
+                            <div class="timeline-desc" data-lang="tr">
+                                Nitelikli kahve hazırlama konusundaki katı standartları ve mükemmeliyetçiliği koruyarak premium bir ortamda yüksek hacimli siparişleri yönettim. Yoğun saatlerde dahi sıcak bir atmosfer ve kusursuz ürün kalitesi sağladım.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">May 2024 – Jul 2025</div>
+                            <div class="timeline-role">Barista</div>
+                            <div class="timeline-company">Torrefaktum GmbH</div>
+                            <div class="timeline-desc" data-lang="en">
+                                Delivered exceptional customer service in a fast-paced specialty café environment. Collaborated seamlessly with the floor team to manage workflow efficiency and execute visually appealing beverage presentations.
+                            </div>
+                            <div class="timeline-desc" data-lang="de">
+                                Exzellenter Kundenservice in einem dynamischen Spezialitätencafé. Nahtlose Zusammenarbeit mit dem Team zur Optimierung der Workflow-Effizienz und Umsetzung visuell ansprechender Getränkepräsentationen.
+                            </div>
+                            <div class="timeline-desc" data-lang="tr">
+                                Yüksek tempolu bir nitelikli kahve dükkanında olağanüstü müşteri hizmeti sundum. İş akışı verimliliğini yönetmek ve görsel olarak çekici içecek sunumları gerçekleştirmek için ekiple kusursuz bir uyum içinde çalıştım.
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">Nov 2023 – Apr 2024</div>
+                            <div class="timeline-role" data-lang="en">Fine Dining Server</div>
+                            <div class="timeline-role" data-lang="de">Servicekraft Gehobene Gastronomie</div>
+                            <div class="timeline-role" data-lang="tr">Fine Dining Servis Personeli</div>
+                            
+                            <div class="timeline-company">Palazzo GmbH (Cornelia Poletto)</div>
+                            <div class="timeline-desc" data-lang="en">
+                                Provided highly attentive, multi-course fine dining service within a unique event venue. Anticipated guest needs, rapidly adapted to complex serving logistics, and ensured a seamless premium dining experience.
+                            </div>
+                            <div class="timeline-desc" data-lang="de">
+                                Aufmerksamer Service für mehrgängige Menüs in einer dynamischen Event-Location. Antizipation von Gästebedürfnissen, schnelle Anpassung an komplexe Logistik und Gewährleistung eines erstklassigen Erlebnisses.
+                            </div>
+                            <div class="timeline-desc" data-lang="tr">
+                                Benzersiz bir etkinlik mekanında son derece özenli, çok servisli (multi-course) fine dining hizmeti sağladım. Misafir ihtiyaçlarını önceden öngördüm, karmaşık servis lojistiğine hızla adapte oldum ve kusursuz bir premium yemek deneyimi sundum.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-content="ent">
+                        <div class="timeline-item">
+                            <div class="timeline-date">May 2025 – Present</div>
+                            <div class="timeline-role" data-lang="en">E-Commerce Founder & Curator</div>
+                            <div class="timeline-role" data-lang="de">E-Commerce Gründer & Kurator</div>
+                            <div class="timeline-role" data-lang="tr">E-Ticaret Kurucusu & Küratör</div>
+                            
+                            <div class="timeline-company">Altona Camera</div>
+                            <div class="timeline-desc" data-lang="en">
+                                Launched and scaled a highly profitable resell business specializing in premium analog and digital cameras. Leveraged deep market analysis, aggressive negotiation, and a perfectionist approach to product presentation to generate ~€6,000 in net profit within the first 3 months. Built a reputation for flawless client relations and high-margin turnarounds.
+                            </div>
+                            <div class="timeline-desc" data-lang="de">
+                                Gründung und Skalierung eines hochprofitablen Resell-Geschäfts, spezialisiert auf analoge und digitale Premium-Kameras. Nutzung tiefgreifender Marktanalysen, Verhandlungsgeschick und eines perfektionistischen Ansatzes bei der Produktpräsentation, um in den ersten 3 Monaten einen Nettogewinn von ca. 6.000 € zu erzielen.
+                            </div>
+                            <div class="timeline-desc" data-lang="tr">
+                                Analog ve dijital premium kameralarda uzmanlaşan, oldukça kârlı bir al-sat (resell) girişimi kurdum ve ölçeklendirdim. Derin pazar analizi, agresif müzakere ve ürün sunumundaki mükemmeliyetçi yaklaşımımla ilk 3 ay içinde ~6.000 € net kâr elde ettim. Kusursuz müşteri ilişkileri konusunda güvenilir bir itibar inşa ettim.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">Apr 2021 – May 2022</div>
+                            <div class="timeline-role" data-lang="en">Co-Founder & Social Media Manager</div>
+                            <div class="timeline-role" data-lang="de">Mitbegründer & Social Media Manager</div>
+                            <div class="timeline-role" data-lang="tr">Kurucu Ortak & Sosyal Medya Yöneticisi</div>
+                            
+                            <div class="timeline-company">Refine Watches</div>
+                            <div class="timeline-desc" data-lang="en">
+                                Co-founded an independent vintage watch curation and resell initiative. Managed end-to-end operations including Instagram marketing, customer relations, and sales execution. Navigated a highly niche market, driving initial traction before hitting a plateau, making it a pivotal early lesson in e-commerce strategy, market limitations, and operational pivots.
+                            </div>
+                            <div class="timeline-desc" data-lang="de">
+                                Mitbegründer einer unabhängigen Initiative zur Kuration und zum Weiterverkauf von Vintage-Uhren. Verwaltung der End-to-End-Abläufe, einschließlich Instagram-Marketing und Verkaufsabwicklung. Navigation in einem stark auf Nischen ausgerichteten Markt – eine entscheidende frühe Lektion in E-Commerce-Strategie und operativen Anpassungen.
+                            </div>
+                            <div class="timeline-desc" data-lang="tr">
+                                Bağımsız bir vintage saat kürasyonu ve resell girişiminin kurucu ortağı oldum. Instagram pazarlaması, müşteri ilişkileri ve satış uygulamaları dahil olmak üzere uçtan uca tüm operasyonları yönettim. Son derece niş bir pazarda faaliyet göstererek, e-ticaret stratejisi ve operasyonel manevralar konusunda bana çok değerli bir erken dönem tecrübesi kazandırdı.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">2017</div>
+                            <div class="timeline-role" data-lang="en">Event Volunteer & Guest Services Lead</div>
+                            <div class="timeline-role" data-lang="de">Event-Volunteer & Gästeservice-Leiter</div>
+                            <div class="timeline-role" data-lang="tr">Etkinlik Gönüllüsü & Misafir İlişkileri Lideri</div>
+                            
+                            <div class="timeline-company">Kapikaya Extreme Sports Festival</div>
+                            <div class="timeline-desc" data-lang="en">
+                                Directed registration logistics and guest relations for an international outdoor sports event explicitly themed around environmental conservation. Managed direct communication and accommodation planning for foreign athletes and attendees. Collaborated closely with the core organization team to resolve on-site operational bottlenecks, ensuring a flawless experience under high-pressure outdoor conditions.
+                            </div>
+                            <div class="timeline-desc" data-lang="de">
+                                Leitung der Registrierungslogistik und Gästebetreuung für ein internationales Outdoor-Sportevent mit explizitem Schwerpunkt auf Umweltschutz. Verwaltung der direkten Kommunikation und Unterkunftsplanung für ausländische Athleten. Enge Zusammenarbeit mit dem Kernteam zur Lösung operativer Engpässe vor Ort.
+                            </div>
+                            <div class="timeline-desc" data-lang="tr">
+                                Çevre koruma temalı uluslararası bir doğa sporları festivali için kayıt lojistiğini ve misafir ilişkilerini yönettim. Yabancı sporcular ve katılımcılar için doğrudan iletişim ve konaklama planlamasını koordine ettim. Sahadaki operasyonel darboğazları çözmek için çekirdek organizasyon ekibiyle yakın işbirliği yaparak, yüksek baskı altında kusursuz bir deneyim sağladım.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="container">
+                <h2>
+                    <span data-lang="en">Core Competencies</span>
+                    <span data-lang="de">Kernkompetenzen</span>
+                    <span data-lang="tr">Temel Yetkinlikler</span>
+                </h2>
+                
+                <div data-content="tech" class="skills-grid reveal grid-container">
+                    <div class="skill-category">
+                        <h4 data-lang="en">AI & Evaluation</h4>
+                        <h4 data-lang="de">KI & Evaluierung</h4>
+                        <h4 data-lang="tr">Yapay Zeka & Değerlendirme</h4>
+                        
+                        <ul class="skill-list">
+                            <li data-lang="en">AI Model Training</li><li data-lang="de">KI-Modelltraining</li><li data-lang="tr">Yapay Zeka Model Eğitimi</li>
+                            <li data-lang="en">Side-by-side Benchmarking</li><li data-lang="de">Side-by-Side-Benchmarking</li><li data-lang="tr">Yan Yana Kıyaslama (Benchmarking)</li>
+                            <li data-lang="en">Complex Workflow Analysis</li><li data-lang="de">Komplexe Workflow-Analyse</li><li data-lang="tr">Karmaşık İş Akışı Analizi</li>
+                            <li data-lang="en">Structured Technical Feedback</li><li data-lang="de">Technisches Feedback</li><li data-lang="tr">Yapılandırılmış Teknik Geri Bildirim</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h4 data-lang="en">Quality Assurance</h4>
+                        <h4 data-lang="de">Qualitätssicherung</h4>
+                        <h4 data-lang="tr">Kalite Güvence (QA)</h4>
+                        
+                        <ul class="skill-list">
+                            <li data-lang="en">Manual & Regression Testing</li><li data-lang="de">Manuelles & Regressionstesten</li><li data-lang="tr">Manuel & Regresyon Testleri</li>
+                            <li data-lang="en">Test Case Execution (1000+)</li><li data-lang="de">Testfall-Ausführung (1000+)</li><li data-lang="tr">Test Senaryosu Yürütme (1000+)</li>
+                            <li data-lang="en">Flawless Bug Reporting</li><li data-lang="de">Fehlerberichterstattung</li><li data-lang="tr">Kusursuz Hata Raporlama</li>
+                            <li data-lang="en">Live Stream Monitoring</li><li data-lang="de">Live-Stream-Überwachung</li><li data-lang="tr">Canlı Yayın İzleme & Testi</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h4 data-lang="en">Technical Tools</h4>
+                        <h4 data-lang="de">Technische Tools</h4>
+                        <h4 data-lang="tr">Teknik Araçlar</h4>
+                        
+                        <ul class="skill-list">
+                            <li>Chrome DevTools</li>
+                            <li data-lang="en">Network Log Analysis</li><li data-lang="de">Netzwerkprotokoll-Analyse</li><li data-lang="tr">Network Log Analizi</li>
+                            <li data-lang="en">Crash Log Extraction (iOS/Android)</li><li data-lang="de">Crash-Log-Extraktion (iOS/Android)</li><li data-lang="tr">Crash Log Çıkarımı (iOS/Android)</li>
+                            <li data-lang="en">Geo-Compliance (VPN)</li><li data-lang="de">Geo-Compliance (VPN)</li><li data-lang="tr">Geo-Compliance (Bölgesel Erişim)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div data-content="gastro" class="skills-grid reveal grid-container">
+                    <div class="skill-category">
+                        <h4 data-lang="en">Hospitality</h4>
+                        <h4 data-lang="de">Gastfreundschaft</h4>
+                        <h4 data-lang="tr">Ağırlama & Hizmet</h4>
+                        
+                        <ul class="skill-list">
+                            <li data-lang="en">Specialty Coffee Preparation</li><li data-lang="de">Zubereitung von Kaffeespezialitäten</li><li data-lang="tr">Nitelikli Kahve Hazırlama</li>
+                            <li data-lang="en">Fine Dining Service</li><li data-lang="de">Fine Dining Service</li><li data-lang="tr">Fine Dining Servis Becerileri</li>
+                            <li data-lang="en">Guest Experience Management</li><li data-lang="de">Gästeerlebnis-Management</li><li data-lang="tr">Misafir Deneyimi Yönetimi</li>
+                            <li data-lang="en">Multi-course Service</li><li data-lang="de">Mehrgänger-Service</li><li data-lang="tr">Çoklu Servis (Multi-course) Yönetimi</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h4 data-lang="en">Operational Excellence</h4>
+                        <h4 data-lang="de">Operative Exzellenz</h4>
+                        <h4 data-lang="tr">Operasyonel Mükemmellik</h4>
+                        
+                        <ul class="skill-list">
+                            <li data-lang="en">High-Volume Order Management</li><li data-lang="de">Management von hohem Bestellvolumen</li><li data-lang="tr">Yüksek Hacimli Sipariş Yönetimi</li>
+                            <li data-lang="en">Rapid Workflow Adaptation</li><li data-lang="de">Schnelle Workflow-Anpassung</li><li data-lang="tr">İş Akışlarına Hızlı Adaptasyon</li>
+                            <li data-lang="en">Hygiene & Safety Standards</li><li data-lang="de">Hygiene- & Sicherheitsstandards</li><li data-lang="tr">Hijyen & Güvenlik Standartları</li>
+                            <li data-lang="en">Interdisciplinary Teamwork</li><li data-lang="de">Interdisziplinäre Teamarbeit</li><li data-lang="tr">İnterdisipliner Takım Çalışması</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h4 data-lang="en">Soft Skills</h4>
+                        <h4 data-lang="de">Soft Skills</h4>
+                        <h4 data-lang="tr">Kişisel Beceriler</h4>
+                        
+                        <ul class="skill-list">
+                            <li data-lang="en">Extreme Perfectionism</li><li data-lang="de">Extremer Perfektionismus</li><li data-lang="tr">Aşırı Mükemmeliyetçilik</li>
+                            <li data-lang="en">Flawless Visual Presentation</li><li data-lang="de">Fehlerfreie visuelle Präsentation</li><li data-lang="tr">Kusursuz Görsel Sunum</li>
+                            <li data-lang="en">Multicultural Communication</li><li data-lang="de">Multikulturelle Kommunikation</li><li data-lang="tr">Çok Kültürlü İletişim</li>
+                            <li data-lang="en">Fast Learning</li><li data-lang="de">Schnelles Lernen</li><li data-lang="tr">Hızlı Öğrenme</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div data-content="ent" class="skills-grid reveal grid-container">
+                    <div class="skill-category">
+                        <h4 data-lang="en">Business & Sales</h4>
+                        <h4 data-lang="de">Wirtschaft & Vertrieb</h4>
+                        <h4 data-lang="tr">İşletme & Satış</h4>
+                        
+                        <ul class="skill-list">
+                            <li data-lang="en">Market Trend Analysis</li><li data-lang="de">Markttrendanalyse</li><li data-lang="tr">Pazar Trendi Analizi</li>
+                            <li data-lang="en">Aggressive Negotiation</li><li data-lang="de">Verhandlungsführung</li><li data-lang="tr">Agresif Müzakere Teknikleri</li>
+                            <li data-lang="en">Profit Optimization</li><li data-lang="de">Gewinnoptimierung</li><li data-lang="tr">Kâr Optimizasyonu</li>
+                            <li data-lang="en">E-Commerce Scaling</li><li data-lang="de">E-Commerce-Skalierung</li><li data-lang="tr">E-Ticaret Ölçeklendirme</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h4 data-lang="en">Operational Excellence</h4>
+                        <h4 data-lang="de">Operative Exzellenz</h4>
+                        <h4 data-lang="tr">Operasyonel Mükemmellik</h4>
+                        
+                        <ul class="skill-list">
+                            <li data-lang="en">Event Coordination</li><li data-lang="de">Eventkoordination</li><li data-lang="tr">Etkinlik Koordinasyonu</li>
+                            <li data-lang="en">Large-scale Logistics</li><li data-lang="de">Groß angelegte Logistik</li><li data-lang="tr">Büyük Ölçekli Lojistik Planlama</li>
+                            <li data-lang="en">Product Curation</li><li data-lang="de">Produktkuration</li><li data-lang="tr">Ürün Kürasyonu</li>
+                            <li data-lang="en">Client Relations</li><li data-lang="de">Kundenbeziehungen</li><li data-lang="tr">Müşteri İlişkileri Yönetimi</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h4 data-lang="en">Core Mindset</h4>
+                        <h4 data-lang="de">Kernmentalität</h4>
+                        <h4 data-lang="tr">Temel Zihniyet</h4>
+                        
+                        <ul class="skill-list">
+                            <li data-lang="en">Rapid Adaptation</li><li data-lang="de">Schnelle Anpassung</li><li data-lang="tr">Hızlı Adaptasyon</li>
+                            <li data-lang="en">Extreme Perfectionism</li><li data-lang="de">Extremer Perfektionismus</li><li data-lang="tr">Aşırı Mükemmeliyetçilik</li>
+                            <li data-lang="en">Fast Learning Curve</li><li data-lang="de">Steile Lernkurve</li><li data-lang="tr">Dikey Öğrenme Eğrisi</li>
+                            <li data-lang="en">Self-Driven Execution</li><li data-lang="de">Eigenverantwortliche Ausführung</li><li data-lang="tr">Öz Motivasyonlu Uygulama</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <div class="container">
+                <div class="two-col-grid">
+                    
+                    <div class="reveal">
+                        <h2>
+                            <span data-lang="en">Education</span>
+                            <span data-lang="de">Ausbildung</span>
+                            <span data-lang="tr">Eğitim</span>
+                        </h2>
+                        
+                        <div class="edu-item">
+                            <div class="timeline-date">2025 – Present</div>
+                            <div class="timeline-company">Information and Communication Design</div>
+                            <div class="timeline-desc">Hochschule Rhein-Waal (HSRW)</div>
+                        </div>
+                        
+                        <div class="edu-item">
+                            <div class="timeline-date">2023 – 2024</div>
+                            <div class="timeline-company">Kommunikations- und Medienwissenschaft</div>
+                            <div class="timeline-desc" data-lang="en">University of Bremen (Vorbereitungsstudium)</div>
+                            <div class="timeline-desc" data-lang="de">Universität Bremen (Vorbereitungsstudium)</div>
+                            <div class="timeline-desc" data-lang="tr">Bremen Üniversitesi (Vorbereitungsstudium)</div>
+                        </div>
+                        
+                        <div class="edu-item">
+                            <div class="timeline-date">2021 – 2022</div>
+                            <div class="timeline-company">Multimedia Production</div>
+                            <div class="timeline-desc">Fachhochschule Kiel (<span class="highlight">Erasmus+</span>)</div>
+                        </div>
+                        
+                        <div class="edu-item">
+                            <div class="timeline-date">2019 – 2021</div>
+                            <div class="timeline-company">Communication Design</div>
+                            <div class="timeline-desc" data-lang="en">Istanbul Kultur University (<span class="highlight">3.45 GPA</span>, <span class="highlight">Full Scholarship</span>)</div>
+                            <div class="timeline-desc" data-lang="de">Istanbul Kultur Universität (<span class="highlight">3.45 GPA</span>, <span class="highlight">Vollstipendium</span>)</div>
+                            <div class="timeline-desc" data-lang="tr">İstanbul Kültür Üniversitesi (<span class="highlight">3.45 GPA</span>, <span class="highlight">Tam Burslu</span>)</div>
+                        </div>
+                    </div>
+
+                    <div class="reveal">
+                        <h2>
+                            <span data-lang="en">Interests & Certifications</span>
+                            <span data-lang="de">Interessen & Zertifikate</span>
+                            <span data-lang="tr">İlgi Alanları & Sertifikalar</span>
+                        </h2>
+                        <div style="margin-bottom: var(--spacing-md);">
+                            <span class="interest-tag" data-lang="en">Designing & Sewing Clothes</span>
+                            <span class="interest-tag" data-lang="de">Entwerfen & Nähen von Kleidung</span>
+                            <span class="interest-tag" data-lang="tr">Kıyafet Tasarımı & Dikimi</span>
+
+                            <span class="interest-tag" data-lang="en">Indoor Rock Climbing & Bouldering (DAV Certified)</span>
+                            <span class="interest-tag" data-lang="de">Indoor-Klettern & Bouldern (DAV Zertifiziert)</span>
+                            <span class="interest-tag" data-lang="tr">Kapalı Alan Tırmanışı & Bouldering (DAV Sertifikalı)</span>
+
+                            <span class="interest-tag" data-lang="en">Analog & Digital Photography</span>
+                            <span class="interest-tag" data-lang="de">Analoge & Digitale Fotografie</span>
+                            <span class="interest-tag" data-lang="tr">Analog & Dijital Fotoğrafçılık</span>
+
+                            <span class="interest-tag" data-lang="en">Physical Media Collector (Vinyl & CD)</span>
+                            <span class="interest-tag" data-lang="de">Sammler physischer Medien (Vinyl & CD)</span>
+                            <span class="interest-tag" data-lang="tr">Fiziksel Medya Koleksiyonculuğu (Plak & CD)</span>
+                            
+                            <span class="interest-tag" data-lang="en">Paragliding (Certified by Turkish Aeronautical Association - 2017)</span>
+                            <span class="interest-tag" data-lang="de">Gleitschirmfliegen (Zertifiziert durch Turkish Aeronautical Association - 2017)</span>
+                            <span class="interest-tag" data-lang="tr">Yamaç Paraşütü (Türk Hava Kurumu Sertifikalı - 2017)</span>
+                        </div>
+                        
+                        <div class="mono-subtitle" style="margin-top: var(--spacing-lg);">
+                            <span data-lang="en">Languages</span>
+                            <span data-lang="de">Sprachen</span>
+                            <span data-lang="tr">Diller</span>
+                        </div>
+                        <ul class="skill-list">
+                            <li data-lang="en">English (C1) - Professional Working</li>
+                            <li data-lang="de">Englisch (C1) - Verhandlungssicher</li>
+                            <li data-lang="tr">İngilizce (C1) - Profesyonel Çalışma Yetkinliği</li>
+                            
+                            <li data-lang="en">German (B1) - Intermediate</li>
+                            <li data-lang="de">Deutsch (B1) - Fortgeschritten</li>
+                            <li data-lang="tr">Almanca (B1) - Orta Seviye</li>
+                            
+                            <li data-lang="en">Turkish - Native</li>
+                            <li data-lang="de">Türkisch - Muttersprache</li>
+                            <li data-lang="tr">Türkçe - Anadil</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Alperen Erkoc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Custom Cursor Logic (Standard Smooth) ---
+            const cursorDot = document.getElementById('cursor-dot');
+            const cursorRing = document.getElementById('cursor-ring');
+            
+            let mouseX = -100, mouseY = -100, ringX = -100, ringY = -100;
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX; mouseY = e.clientY;
+                cursorDot.style.left = `${mouseX}px`; 
+                cursorDot.style.top = `${mouseY}px`;
+            });
+            
+            const render = () => {
+                ringX += (mouseX - ringX) * 0.15; 
+                ringY += (mouseY - ringY) * 0.15;
+                cursorRing.style.left = `${ringX}px`; 
+                cursorRing.style.top = `${ringY}px`;
+                requestAnimationFrame(render);
+            };
+            requestAnimationFrame(render);
+            
+            // --- Onboarding Modal Logic ---
+            const modal = document.getElementById('onboarding-modal');
+            const closeBtn = document.getElementById('close-modal');
+            
+            // Check if seen in this specific session
+            if(!sessionStorage.getItem('onboardingSeen')) {
+                // Add a small delay for a nice entry effect instead of immediate flash
+                setTimeout(() => {
+                    modal.classList.remove('hidden');
+                }, 300);
+            }
+            
+            closeBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+                sessionStorage.setItem('onboardingSeen', 'true');
+            });
+            
+            // --- Path Switching Logic ---
+            const body = document.body;
+            const pathBtns = document.querySelectorAll('.path-btn');
+            const techContents = document.querySelectorAll('[data-content="tech"]');
+            const gastroContents = document.querySelectorAll('[data-content="gastro"]');
+            const entContents = document.querySelectorAll('[data-content="ent"]');
+            const root = document.documentElement;
+
+            function switchPath(targetPath) {
+                body.setAttribute('data-path', targetPath);
+                
+                // Set Theme Colors
+                if (targetPath === 'tech') {
+                    root.style.setProperty('--accent-color', 'var(--tech-accent)');
+                    root.style.setProperty('--accent-glow', 'rgba(91, 156, 246, 0.15)');
+                } else if (targetPath === 'gastro') {
+                    root.style.setProperty('--accent-color', 'var(--gastro-accent)');
+                    root.style.setProperty('--accent-glow', 'rgba(245, 166, 35, 0.15)');
+                } else if (targetPath === 'ent') {
+                    root.style.setProperty('--accent-color', 'var(--ent-accent)');
+                    root.style.setProperty('--accent-glow', 'rgba(16, 185, 129, 0.15)');
+                }
+                
+                // Hide inactive, show active
+                const allContents = [...techContents, ...gastroContents, ...entContents];
+                const activeContents = targetPath === 'tech' ? techContents : 
+                                       targetPath === 'gastro' ? gastroContents : entContents;
+                
+                allContents.forEach(el => {
+                    if(![...activeContents].includes(el)) {
+                        el.classList.remove('visible');
+                    }
+                });
+                
+                setTimeout(() => {
+                    activeContents.forEach(el => {
+                        void el.offsetWidth; // trigger reflow
+                        el.classList.add('visible');
+                    });
+                }, 50);
+            }
+            
+            pathBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const target = btn.getAttribute('data-target');
+                    if (body.getAttribute('data-path') !== target) {
+                        switchPath(target);
+                    }
+                });
+            });
+            
+            switchPath('tech'); // Default init
+
+            // --- Theme Toggle Logic ---
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const themeIcon = themeToggleBtn.querySelector('i');
+            
+            themeToggleBtn.addEventListener('click', () => {
+                const currentTheme = body.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                body.setAttribute('data-theme', newTheme);
+                themeIcon.className = newTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+            });
+
+            // --- Full Language Control Logic ---
+            const langBtns = document.querySelectorAll('.lang-btn, .modal-lang-btn');
+            
+            function setLanguage(lang) {
+                body.setAttribute('data-lang', lang);
+            }
+            
+            langBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    let langTarget = btn.getAttribute('data-target') || btn.id.split('-')[1];
+                    setLanguage(langTarget);
+                });
+            });
+
+            // --- Scroll Reveal Animations ---
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+            
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, revealOptions);
+            
+            revealElements.forEach(el => revealObserver.observe(el));
+        });
+    </script>
+</body>
+</html>
